@@ -18,7 +18,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    private static final String TOKEN_PREFIX = "login:token:";
+    private static final String TOKEN_PREFIX = "TOKEN_:";
     private static final String COOKIE_NAME = "auth_token";
 
     @Override

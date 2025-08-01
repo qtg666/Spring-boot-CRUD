@@ -12,7 +12,7 @@ public class LoggingAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);//固定不变的、类级别的私有日志记录器
     //环绕通知
-    @Around("execution(* org.example.service..*(..))") // 指定需要拦截的方法
+    @Around("execution(* org.example.service..*(..)) || execution(* org.example.controller..*(..))") // 指定需要拦截的方法
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {//声明该方法可能抛异常
         String methodName = joinPoint.getSignature().getName();//获取方法名
         Object[] args = joinPoint.getArgs();//用一个数组存传入的参数值

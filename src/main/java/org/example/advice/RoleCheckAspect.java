@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.nio.file.AccessDeniedException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -29,15 +30,22 @@ public class RoleCheckAspect {
     private ProceedingJoinPoint joinPoint;
 
     private CheckRole1 checkRole;
-    private HttpServletRequest request;
 
-    ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-
+    //ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+    //HttpServletRequest request = attributes.getRequest();
     //获取当前请求的用户名（filter捞出来的）
-    String usn = (String) request.getAttribute("currentUsername");
+
 
     @Around("@annotation(checkRole)") // 拦截所有带有 @CheckRole1 注解的方法
     public Object checkRoles(ProceedingJoinPoint joinPoint, CheckRole1 checkRole) throws Throwable {
+        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+
+        HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+
+        String usn = (String) request.getAttribute("currentUsername");
+        // 从请求中获取attribute
+        //Object currentUser = request.getAttribute("currentUser");
+        //System.out.println("Current User: " + currentUser);
 
         //根据用户名查角色
         Boolean hasPermission = userService.permission(usn);

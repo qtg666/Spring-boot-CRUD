@@ -62,6 +62,7 @@ public class LoginController {
             //return Map.of("success", true, "message", "登录成功");
             return ResponseEntity.ok(new AuthenticationResponse(token));//返回token
         } else {
+            System.out.println("401错误！！！");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();//返回401状态码
         }
     }
