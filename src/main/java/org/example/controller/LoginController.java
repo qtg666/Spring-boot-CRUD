@@ -50,6 +50,7 @@ public class LoginController {
             // 创建 HttpOnly Cookie
             Cookie tokenCookie = new Cookie(COOKIE_NAME, token);
             tokenCookie.setHttpOnly(true);  // 关键：防止 JavaScript 访问
+            tokenCookie.setDomain("localhost");
             tokenCookie.setSecure(true);    // 关键：仅通过 HTTPS 传输
             tokenCookie.setPath("/");       // Cookie 作用路径，所有路径都有效
             tokenCookie.setMaxAge((int) TimeUnit.HOURS.toSeconds(TOKEN_EXPIRE_HOURS)); // 设置过期时间 (秒)
