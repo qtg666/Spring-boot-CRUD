@@ -1,5 +1,8 @@
 package org.example.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.service.AdminService;
@@ -15,8 +18,9 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+@Tag(name = "用户登陆", description = "用来登陆的接口")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/admin")
 public class LoginController {
 
     @Autowired
@@ -29,6 +33,9 @@ public class LoginController {
     private static final String COOKIE_NAME = "auth_token";//
     private static final long TOKEN_EXPIRE_HOURS = 2;//token有效时间
 
+    @Operation(summary = "登陆", description = "用户登陆，输入用户名和密码",
+    parameters = {@Parameter(name = "credentials", description = "一个Map，包含两个键值对：用户、密码", required = true,
+            example = "{username = xiaoming, password = 123456}")})
     @PostMapping("/login")
     //ResponseEntity 是 Spring 提供的一个类，用于封装 HTTP 响应的完整信息，包括：
     //状态码（如 200 OK、401 Unauthorized）
@@ -51,8 +58,9 @@ public class LoginController {
             Cookie tokenCookie = new Cookie(COOKIE_NAME, token);
             tokenCookie.setHttpOnly(true);  // 关键：防止 JavaScript 访问
             tokenCookie.setDomain("localhost");
-            tokenCookie.setSecure(true);    // 关键：仅通过 HTTPS 传输
+            //tokenCookie.setSecure(true);    // 关键：仅通过 HTTPS 传输
             tokenCookie.setPath("/");       // Cookie 作用路径，所有路径都有效
+
             tokenCookie.setMaxAge((int) TimeUnit.HOURS.toSeconds(TOKEN_EXPIRE_HOURS)); // 设置过期时间 (秒)
 
             // 将 Cookie 添加到 HTTP 响应头
@@ -111,6 +119,7 @@ public class LoginController {
             clearCookie.setPath("/");
             clearCookie.setMaxAge(0); // MaxAge=0 表示立即过期
             response.addCookie(clearCookie);
+
 
             return "登出成功";
         }

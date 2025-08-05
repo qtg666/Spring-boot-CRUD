@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.example.entity.Admin;
-import org.example.exception.CustomerException;
+//import org.example.exception.CustomerException;
 import org.example.mapper.AdminMapper;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +16,13 @@ public class AdminService {
     @Resource
     AdminMapper adminMapper;
 
-    public String admin(String name){
-        if ("admin".equals(name)){
-            return "admin";
-        }else{
-            throw new CustomerException("账号错误");
-        }
-    }
+//    public String admin(String name){
+//        if ("admin".equals(name)){
+//            return "admin";
+//        }else{
+//            throw new CustomerException("账号错误");
+//        }
+//    }
 
     public List<Admin> selectAll(){
         return adminMapper.selectAll();
